@@ -2,6 +2,7 @@ __author__ = 'Justin Dearing <zippy1981@gmail.com>'
 # Tested on Python 3.4
 
 import win32file
+import pywintypes
 
 GENERIC_WRITE = 0x40000000
 OPEN_EXISTING = 3
@@ -13,11 +14,14 @@ FILE_DEVICE_PROCMON_LOG = 0x00009535
 PROCMON_DEBUGGER_HANDLER = r"\\.\Global\ProcmonDebugLogger"
 IOCTL_EXTERNAL_LOG_DEBUGOUT = 2503311876 # Why: https://github.com/zippy1981/ProcMon.LINQpad/blob/master/ProcMonDebugOutput.linq
 
-msg = "Hello ProcMon!"
-msgLen = 2 * len(msg)
+msg = bytes("Hello ProcMon from python!", 'UTF-16')
+msgLen = len(msg)
 handle = win32file.CreateFile(PROCMON_DEBUGGER_HANDLER, GENERIC_WRITE, FILE_SHARE_WRITE, None, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL,0)
-print("handle %x" % handle)
-win32file.DeviceIoControl(handle, IOCTL_EXTERNAL_LOG_DEBUGOUT, bytes(msg, 'UTF-16'), None)
+if handle == -1: raise RuntimeWarning("ProcMon doesn't appear to be running")
+else:
+    try:
+        win32file.DeviceIoControl(handle, IOCTL_EXTERNAL_LOG_DEBUGOUT, msg, None)
+    except pywintypes.error as e:
+        if (e.winerror != 87): raise # Error 87 means ProcMon simply isn't running
 
-
-win32file.CloseHandle(handle)
+    win32file.CloseHandle(handle)
