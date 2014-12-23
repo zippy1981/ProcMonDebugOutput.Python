@@ -19,7 +19,7 @@ DW_IO_CONTROL_CODE = 2503311876
 
 k32 = windll.kernel32
 
-msg = bytes("Hello ProcMon from python with ctypes!", 'UTF-16')
+msg = "Hello ProcMon from python 2.7 with ctypes!".encode('UTF-16')
 
 handle = k32.CreateFileW(
     PROCMON_DEBUGGER_HANDLER,

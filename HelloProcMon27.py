@@ -14,7 +14,7 @@ FILE_DEVICE_PROCMON_LOG = 0x00009535
 PROCMON_DEBUGGER_HANDLER = r"\\.\Global\ProcmonDebugLogger"
 IOCTL_EXTERNAL_LOG_DEBUGOUT = 2503311876 # Why: https://github.com/zippy1981/ProcMon.LINQpad/blob/master/ProcMonDebugOutput.linq
 
-msg = bytes("Hello ProcMon from python with pywin32!", 'UTF-16')
+msg = "Hello ProcMon from python 2.7 with pywin32!".encode('UTF-16')
 msgLen = len(msg)
 handle = win32file.CreateFile(PROCMON_DEBUGGER_HANDLER, GENERIC_WRITE, FILE_SHARE_WRITE, None, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL,0)
 if handle == -1: raise RuntimeWarning("ProcMon doesn't appear to be running")
