@@ -1,4 +1,8 @@
 __author__ = 'Justin Dearing <zippy1981@gmail.com>'
+__copyright__ = "Copyright 2014, Justin Dearing"
+__credits__ = ["Justin Dearing", "John Robbins", "Mark Russinovich"]
+__version__ = "1.0.0"
+__status__ = "Prototype"
 # Tested on Python 3.4
 
 import win32file
